@@ -160,8 +160,10 @@ public class UserRepositoryImpl implements UserRepository {
         Connection connection = DbConnectionThreadLocal.getConnection();
         int count = 0;
         try (PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet rs = statement.executeQuery()
         ) {
+            statement.setString(1, userId);
+            ResultSet rs = statement.executeQuery();
+
             if (rs.next()) {
                 count = rs.getInt(1);
             }

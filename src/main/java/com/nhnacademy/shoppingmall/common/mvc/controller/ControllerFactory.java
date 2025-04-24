@@ -93,6 +93,7 @@ public class ControllerFactory {
     }
 
     private void checkControllerExist(String key) {
+        log.debug("key:{}", key);
         if (!beanMap.containsKey(key)) {
             throw new ControllerNotFoundException(key);
         }

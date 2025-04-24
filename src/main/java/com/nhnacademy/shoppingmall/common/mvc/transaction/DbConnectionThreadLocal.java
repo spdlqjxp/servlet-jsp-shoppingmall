@@ -43,9 +43,8 @@ public class DbConnectionThreadLocal {
 
         //todo#2-4 사용이 완료된 connection은 close를 호출하여 connection pool에 반환합니다.
         Connection connection = connectionThreadLocal.get();
-        if (Objects.isNull(connection)) {
+        if (Objects.nonNull(connection)) {
             try {
-                connection.close();
                 //todo#2-5 getSqlError() 에러가 존재하면 rollback 합니다.
                 if (getSqlError()) {
                     connection.rollback();
@@ -53,6 +52,7 @@ public class DbConnectionThreadLocal {
                     //todo#2-6 getSqlError() 에러가 존재하지 않다면 commit 합니다.
                     connection.commit();
                 }
+                connection.close();
                 //todo#2-7 현제 사용하고 있는 connection을 재 사용할 수 없도록 connectionThreadLocal을 초기화 합니다.
                 initialize();
             } catch (SQLException e) {

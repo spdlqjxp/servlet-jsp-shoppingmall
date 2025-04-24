@@ -7,6 +7,7 @@ public class ViewResolver {
     public static final String DEFAULT_SHOP_LAYOUT="/WEB-INF/views/layout/shop.jsp";
     public static final String DEFAULT_ADMIN_LAYOUT="/WEB-INF/views/layout/admin.jsp";
     public static final String LAYOUT_CONTENT_HOLDER = "layout_content_holder";
+    public static final String ERROR_PAGE = "/WEB-INF/views/error/error.jsp";
 
     private final String prefix;
     private final String postfix;
@@ -43,5 +44,8 @@ public class ViewResolver {
             return DEFAULT_ADMIN_LAYOUT;
         }
         return DEFAULT_SHOP_LAYOUT;
+    }
+    public String getErrorPage(){
+        return ERROR_PAGE;
     }
 }

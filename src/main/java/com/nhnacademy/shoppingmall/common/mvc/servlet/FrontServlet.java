@@ -77,12 +77,7 @@ public class FrontServlet extends HttpServlet {
 
         }finally {
             //todo#7-4 connection을 반납합니다.
-            try {
-                Objects.requireNonNull(connection).close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+            DbConnectionThreadLocal.reset();
         }
     }
-
 }

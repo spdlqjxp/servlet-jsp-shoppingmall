@@ -4,6 +4,8 @@ import com.nhnacademy.shoppingmall.common.mvc.transaction.DbConnectionThreadLoca
 import com.nhnacademy.shoppingmall.thread.request.ChannelRequest;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.Connection;
+
 @Slf4j
 public class PointChannelRequest extends ChannelRequest {
 
@@ -12,6 +14,9 @@ public class PointChannelRequest extends ChannelRequest {
         DbConnectionThreadLocal.initialize();
         //todo#14-5 포인트 적립구현, connection은 point적립이 완료되면 반납합니다.
         log.debug("pointChannel execute");
+
+        Connection connection = DbConnectionThreadLocal.getConnection();
+
         DbConnectionThreadLocal.reset();
     }
 }

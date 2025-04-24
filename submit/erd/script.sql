@@ -1,3 +1,6 @@
+show databases;
+use nhn_academy_16;
+show tables ;
 
 
 CREATE TABLE `users` (

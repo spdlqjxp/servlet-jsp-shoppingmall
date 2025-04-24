@@ -13,6 +13,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Objects;
+
+import static jakarta.servlet.RequestDispatcher.*;
+
 @Slf4j
 @WebServlet(name = "frontServlet",urlPatterns = {"*.do"})
 public class FrontServlet extends HttpServlet {
@@ -22,17 +29,18 @@ public class FrontServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         //todo#7-1 controllerFactory를 초기화 합니다.
-
+        controllerFactory = new ControllerFactory();
 
         //todo#7-2 viewResolver를 초기화 합니다.
-
+        viewResolver = new ViewResolver();
     }
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp){
+        Connection connection = null;
         try{
             //todo#7-3 Connection pool로 부터 connection 할당 받습니다. connection은 Thread 내에서 공유됩니다.
-
+            connection = DbConnectionThreadLocal.getConnection();
 
             BaseController baseController = (BaseController) controllerFactory.getController(req);
             String viewName = baseController.execute(req,resp);
@@ -41,6 +49,7 @@ public class FrontServlet extends HttpServlet {
                 String redirectUrl = viewResolver.getRedirectUrl(viewName);
                 log.debug("redirectUrl:{}",redirectUrl);
                 //todo#7-6 redirect: 로 시작하면  해당 url로 redirect 합니다.
+                resp.sendRedirect(viewResolver.getRedirectUrl(viewName));
 
             }else {
                 String layout = viewResolver.getLayOut(viewName);
@@ -53,10 +62,26 @@ public class FrontServlet extends HttpServlet {
             log.error("error:{}",e);
             DbConnectionThreadLocal.setSqlError(true);
             //todo#7-5 예외가 발생하면 해당 예외에 대해서 적절한 처리를 합니다.
+            req.setAttribute("status_code", req.getAttribute(ERROR_STATUS_CODE));
+            req.setAttribute("exception_type", req.getAttribute(ERROR_EXCEPTION_TYPE));
+            req.setAttribute("message", req.getAttribute(ERROR_MESSAGE));
+            req.setAttribute("exception", req.getAttribute(ERROR_EXCEPTION));
+            req.setAttribute("request_uri", req.getAttribute(ERROR_REQUEST_URI));
+            log.error("status_code:{}", req.getAttribute(ERROR_STATUS_CODE));
+            RequestDispatcher rd = req.getRequestDispatcher(viewResolver.getErrorPage());
+            try {
+                rd.forward(req, resp);
+            } catch (ServletException | IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
         }finally {
             //todo#7-4 connection을 반납합니다.
-
+            try {
+                Objects.requireNonNull(connection).close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

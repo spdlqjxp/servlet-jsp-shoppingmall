@@ -54,9 +54,11 @@ public class DbConnectionThreadLocal {
                 }
                 connection.close();
                 //todo#2-7 현제 사용하고 있는 connection을 재 사용할 수 없도록 connectionThreadLocal을 초기화 합니다.
-                initialize();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            }finally {
+                connectionThreadLocal.remove();
+                sqlErrorThreadLocal.remove();
             }
         }
     }

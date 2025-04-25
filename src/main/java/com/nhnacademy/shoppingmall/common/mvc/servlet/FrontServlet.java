@@ -59,6 +59,7 @@ public class FrontServlet extends HttpServlet {
                 RequestDispatcher rd = req.getRequestDispatcher(layout);
                 rd.include(req, resp);
             }
+            DbConnectionThreadLocal.reset();
         }catch (Exception e){
             log.error("error:{}",e);
             DbConnectionThreadLocal.setSqlError(true);
@@ -76,9 +77,6 @@ public class FrontServlet extends HttpServlet {
 //                throw new RuntimeException(ex);
 //            }
 
-        }finally {
-            //todo#7-4 connection을 반납합니다.
-            DbConnectionThreadLocal.reset();
         }
     }
 }

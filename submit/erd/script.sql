@@ -18,7 +18,9 @@ CREATE TABLE `product` (
                            `product_id`	varchar(50)	NOT NULL	COMMENT '상품id',
                            `product_name`	varchar(50)	NOT NULL	COMMENT '상품이름',
                            `product_price`	int	NOT NULL	COMMENT '상품가격',
-                           `product_quantity`	int	NULL	COMMENT '재고'
+                           `product_quantity`	int	NULL	COMMENT '재고',
+                            `product_description`	varchar(200)	NULL	COMMENT '상품설명',
+                            `product_image`	varchar(200)	NULL	COMMENT '상품이미지'
 );
 
 CREATE TABLE `category_product` (

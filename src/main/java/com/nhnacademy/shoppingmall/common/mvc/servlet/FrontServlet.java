@@ -37,11 +37,9 @@ public class FrontServlet extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp){
-        Connection connection = null;
         try{
             //todo#7-3 Connection pool로 부터 connection 할당 받습니다. connection은 Thread 내에서 공유됩니다.
             DbConnectionThreadLocal.initialize();
-            connection = DbConnectionThreadLocal.getConnection();
 
             BaseController baseController = (BaseController) controllerFactory.getController(req);
             String viewName = baseController.execute(req,resp);
@@ -77,6 +75,8 @@ public class FrontServlet extends HttpServlet {
 //                throw new RuntimeException(ex);
 //            }
 
+        }finally {
+            DbConnectionThreadLocal.reset();
         }
     }
 }

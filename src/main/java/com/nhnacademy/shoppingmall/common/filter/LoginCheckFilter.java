@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.common.filter;
 
+import com.nhnacademy.shoppingmall.user.domain.User;
 import lombok.extern.slf4j.Slf4j;
 
 import jakarta.servlet.*;
@@ -15,7 +16,8 @@ public class LoginCheckFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         //todo#10 /mypage/ 하위경로의 접근은 로그인한 사용자만 접근할 수 있습니다.
-        String userId = (String) req.getSession().getAttribute("user_id");
+        User user = (User) req.getSession().getAttribute("user");
+        String userId = user.getUserId();
         if (userId == null) {
             log.debug("로그인 하지 않은 사용자입니다.");
             res.sendRedirect("/login.do");

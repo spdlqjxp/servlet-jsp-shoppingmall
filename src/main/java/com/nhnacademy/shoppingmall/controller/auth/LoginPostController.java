@@ -25,12 +25,12 @@ public class LoginPostController implements BaseController {
         try {
             User user = userService.doLogin(userId, password);
             HttpSession session = req.getSession();
-            session.setAttribute("user_id", user.getUserId());
+            session.setAttribute("user", user);
             session.setMaxInactiveInterval(60 * 60);//60분
 
         } catch (UserNotFoundException e) {
-            return "/login.do";
+            return "redirect:/login.do";
         }
-        return "shop/main/index";
+        return "redirect:/";
     }
 }

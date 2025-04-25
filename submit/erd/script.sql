@@ -1,8 +1,9 @@
+drop database if exists nhn_academy_16;
 create database nhn_academy_16;
 use nhn_academy_16;
 show tables ;
 
-
+show create table category_product;
 CREATE TABLE `users` (
                          `user_id` varchar(50) NOT NULL COMMENT '아이디',
                          `user_name` varchar(50) NOT NULL COMMENT '이름',
@@ -93,7 +94,7 @@ ALTER TABLE `category_product` ADD CONSTRAINT `FK_product_TO_category_product_1`
     )
     REFERENCES `product` (
                           `product_id`
-        );
+        ) ON DELETE CASCADE;
 
 ALTER TABLE `order` ADD CONSTRAINT `FK_users_TO_order_1` FOREIGN KEY (
                                                                       `user_id`

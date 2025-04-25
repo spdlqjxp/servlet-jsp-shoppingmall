@@ -99,7 +99,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public int updateProductQuantity(String productId, int quantity) {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = """
-                update product set product_quantity=product_quantity+? where product_id=?
+                update product set product_quantity=? where product_id=?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, quantity);
@@ -128,4 +128,25 @@ public class ProductRepositoryImpl implements ProductRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int countQuantityByProductId(String productId) {
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        String sql = """
+                select product_quantity from product where product_id=?
+                """;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, productId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("product_quantity");
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+

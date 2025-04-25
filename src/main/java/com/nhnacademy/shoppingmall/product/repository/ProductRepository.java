@@ -16,4 +16,5 @@ public interface ProductRepository {
     int updateProductQuantity(String productId, int quantity);
 
     int countByProductId(String productId);
+    int countQuantityByProductId(String productId);
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface ProductService {
     Product getProduct(String productId);
-    void saveProduct(Product product);
+    void saveProduct(Product product, String categoryId);
     void updateProduct(Product product);
     void deleteProduct(String productId);
     void updateProductQuantity(String productId, int quantity);

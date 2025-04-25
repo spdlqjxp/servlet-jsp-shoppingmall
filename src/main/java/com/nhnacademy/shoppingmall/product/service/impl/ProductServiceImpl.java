@@ -4,7 +4,9 @@ import com.nhnacademy.shoppingmall.product.domain.Product;
 import com.nhnacademy.shoppingmall.product.exception.ProductAlreadyExistsException;
 import com.nhnacademy.shoppingmall.product.exception.ProductNotFoundException;
 import com.nhnacademy.shoppingmall.product.exception.ProductQuantityNotEnoughException;
+import com.nhnacademy.shoppingmall.product.repository.ProductCategoryRepository;
 import com.nhnacademy.shoppingmall.product.repository.ProductRepository;
+import com.nhnacademy.shoppingmall.product.repository.impl.ProductCategoryRepositoryImpl;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,8 +15,10 @@ import java.util.Optional;
 @Slf4j
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
+        this.productCategoryRepository = new ProductCategoryRepositoryImpl();
     }
 
     @Override
@@ -25,13 +29,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void saveProduct(Product product) {
+    public void saveProduct(Product product, String categoryId) {
         if (isProductExist(product.getProductId())) {
             log.debug("save failed");
             throw new ProductAlreadyExistsException(product.getProductId());
         }
-        int result = productRepository.save(product);
-        if(result < 1) {
+        //트랜잭션 처리 필요.
+        int result1 = productRepository.save(product);
+        int result2 = productCategoryRepository.save(product.getProductId(), categoryId);
+        if(result1 < 1 || result2 < 1) {
             log.debug("save failed");
             throw new ProductAlreadyExistsException(product.getProductId());
         }

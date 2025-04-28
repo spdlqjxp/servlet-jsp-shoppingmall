@@ -4,6 +4,7 @@ import com.nhnacademy.shoppingmall.common.mvc.transaction.DbConnectionThreadLoca
 import com.nhnacademy.shoppingmall.product.domain.Category;
 import com.nhnacademy.shoppingmall.product.domain.Product;
 import com.nhnacademy.shoppingmall.product.repository.ProductCategoryRepository;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,16 +12,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+@Slf4j
 public class ProductCategoryRepositoryImpl implements ProductCategoryRepository {
     @Override
     public int save(String productId, String categoryId) {
         String sql = """
-                INSERT INTO category_product values (?, ?)
+                INSERT INTO category_product (category_id, product_id) values (?, ?)
                     """;
-        try(Connection connection = DbConnectionThreadLocal.getConnection();
-            PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, productId);
-            statement.setString(2, categoryId);
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, categoryId);
+            statement.setString(2, productId);
+            log.debug("sql : {}", statement);
             return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -34,8 +37,8 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
                 inner join category_product cp on p.product_id = cp.product_id
                 inner join category c on cp.category_id = c.category_id
                 """;
-        try (Connection connection = DbConnectionThreadLocal.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             ResultSet rs = statement.executeQuery();
             Map<String, Product> productMap = new HashMap<>();
             while (rs.next()) {
@@ -59,6 +62,22 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
                 ));
             }
             return new ArrayList<>(productMap.values());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int delete(String productId) {
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        String sql = """
+                DELETE FROM category_product WHERE product_id = ? ;
+                """;
+        log.debug("sql : {}", sql);
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, productId);
+            log.debug("sql : {}", statement);
+            return statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

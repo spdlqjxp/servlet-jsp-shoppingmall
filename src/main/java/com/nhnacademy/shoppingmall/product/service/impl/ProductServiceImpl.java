@@ -6,7 +6,6 @@ import com.nhnacademy.shoppingmall.product.exception.ProductNotFoundException;
 import com.nhnacademy.shoppingmall.product.exception.ProductQuantityNotEnoughException;
 import com.nhnacademy.shoppingmall.product.repository.ProductCategoryRepository;
 import com.nhnacademy.shoppingmall.product.repository.ProductRepository;
-import com.nhnacademy.shoppingmall.product.repository.impl.ProductCategoryRepositoryImpl;
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,27 +34,48 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void saveProduct(Product product, String categoryId) {
+    public void saveProduct(Product product, List<String> categoryIds) {
         if (isProductExist(product.getProductId())) {
             log.debug("save failed");
             throw new ProductAlreadyExistsException(product.getProductId());
         }
-        //트랜잭션 처리 필요.
         int result1 = productRepository.save(product);
-        int result2 = productCategoryRepository.save(product.getProductId(), categoryId);
-        if(result1 < 1 || result2 < 1) {
+        log.debug("product save : {}", product.getProductName());
+        for(String categoryId : categoryIds) {
+            int result2 = productCategoryRepository.save(product.getProductId(), categoryId.trim());
+            if (result2 < 1) {
+                log.debug("category save failed");
+                throw new ProductAlreadyExistsException(product.getProductId());
+            }
+        }
+        log.debug("category save : {}", categoryIds);
+        if(result1 < 1) {
             log.debug("save failed");
             throw new ProductAlreadyExistsException(product.getProductId());
         }
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public void updateProduct(Product product, List<String> categoryIds) {
         if (!isProductExist(product.getProductId())) {
             log.debug("update failed");
             throw new ProductNotFoundException(product.getProductId());
         }
         int result = productRepository.update(product);
+        int result2 = productCategoryRepository.delete(product.getProductId());
+        if (result2 < 1) {
+            log.debug("category update failed");
+            throw new ProductNotFoundException(product.getProductId());
+        }
+
+        for(String categoryId : categoryIds) {
+            int result3 = productCategoryRepository.save(product.getProductId(), categoryId.trim());
+            if (result3 < 1) {
+                log.debug("category update failed");
+                throw new ProductNotFoundException(product.getProductId());
+            }
+        }
+        log.debug("category update : {}", categoryIds);
         if (result < 1) {
             log.debug("update failed");
             throw new ProductNotFoundException(product.getProductId());

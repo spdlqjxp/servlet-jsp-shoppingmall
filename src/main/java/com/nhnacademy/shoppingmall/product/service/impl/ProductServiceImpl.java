@@ -10,15 +10,16 @@ import com.nhnacademy.shoppingmall.product.repository.impl.ProductCategoryReposi
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, ProductCategoryRepository productCategoryRepository) {
         this.productRepository = productRepository;
-        this.productCategoryRepository = new ProductCategoryRepositoryImpl();
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     @Override
@@ -26,6 +27,11 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> productOptional = productRepository.findById(productId);
         return productOptional.orElse(null);
 
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productCategoryRepository.findAllIncludeCategory();
     }
 
     @Override

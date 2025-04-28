@@ -32,9 +32,11 @@
                 <td>${product.productName}</td>
                 <td>${product.price}</td>
                 <td>${product.productQuantity}</td>
+                <td>
                 <c:forEach var="category" items="${product.categories}">
-                    <td>${category.categoryName}</td>
+                    ${category.categoryName}
                 </c:forEach>
+                </td>
                 <td>
                     <a href="/admin/product/edit.do?product_id=${product.productId}" class="btn btn-primary btn-sm">수정</a>
                     <form action="/admin/product/delete.do" method="post" style="display:inline;">

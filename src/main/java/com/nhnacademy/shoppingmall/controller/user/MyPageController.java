@@ -1,4 +1,4 @@
-package com.nhnacademy.shoppingmall.controller.auth;
+package com.nhnacademy.shoppingmall.controller.user;
 
 import com.nhnacademy.shoppingmall.common.mvc.annotation.RequestMapping;
 import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
@@ -10,6 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 public class MyPageController implements BaseController {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
-        return "shop/page/mypage";
+        return "shop/page/mypage/mypage_index";
     }
 }

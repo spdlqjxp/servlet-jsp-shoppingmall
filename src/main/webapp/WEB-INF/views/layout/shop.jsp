@@ -33,7 +33,7 @@
                         <li><a href="/index.do" class="nav-link px-2 text-secondary">Home</a></li>
                         <c:choose>
                             <c:when test="${not empty sessionScope.user and sessionScope.user.userAuth eq 'ROLE_ADMIN'}">
-                                <li><a href="/admin.do" class="nav-link px-2 text-warning">상품관리</a></li>
+                                <li><a href="/admin/product.do" class="nav-link px-2 text-warning">상품관리</a></li>
                             </c:when>
                             <c:otherwise>
                                 <li><a href="/mypage.do" class="nav-link px-2 text-white">마이페이지</a></li>

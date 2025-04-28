@@ -19,7 +19,6 @@
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
         <tr>
-            <th>상품 ID</th>
             <th>상품명</th>
             <th>가격</th>
             <th>재고</th>
@@ -30,11 +29,12 @@
         <tbody>
         <c:forEach var="product" items="${productList}">
             <tr>
-                <td>${product.productId}</td>
                 <td>${product.productName}</td>
                 <td>${product.price}</td>
                 <td>${product.productQuantity}</td>
-                <td>${product.categoryName}</td> <!-- 상품+카테고리 조인 조회 추천 -->
+                <c:forEach var="category" items="${product.categories}">
+                    <td>${category.categoryName}</td>
+                </c:forEach>
                 <td>
                     <a href="/admin/product/edit.do?product_id=${product.productId}" class="btn btn-primary btn-sm">수정</a>
                     <form action="/admin/product/delete.do" method="post" style="display:inline;">

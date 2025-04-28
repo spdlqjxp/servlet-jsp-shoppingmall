@@ -1,5 +1,7 @@
 package com.nhnacademy.shoppingmall.product.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Product {
@@ -9,7 +11,7 @@ public class Product {
     private int productQuantity;
     private String productDescription = null;
     private String productImage = null;
-
+    private List<Category> categories = new ArrayList<>();
     public Product(String productId, String productName, int price, int productQuantity, String productDescription, String productImage) {
         this.productId = productId;
         this.productName = productName;
@@ -95,5 +97,9 @@ public class Product {
 
     public void setProductImage(String productImage) {
         this.productImage = productImage;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 }

@@ -12,12 +12,7 @@
 <div class="container py-5">
     <h2>📦 상품 등록</h2>
 
-    <form action="/admin/product/save.do" method="post" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="product_id" class="form-label">상품 ID</label>
-            <input type="text" class="form-control" id="product_id" name="product_id" required>
-        </div>
-
+    <form action="/admin/product/register.do" method="post">
         <div class="mb-3">
             <label for="product_name" class="form-label">상품명</label>
             <input type="text" class="form-control" id="product_name" name="product_name" required>
@@ -39,17 +34,34 @@
         </div>
 
         <div class="mb-3">
-            <label for="category_id" class="form-label">카테고리 선택</label>
-            <select class="form-select" id="category_id" name="category_id" required>
+            <label class="form-label">카테고리 선택 (최대 3개)</label>
+
+            <select class="form-select mb-2" id="category_id_1" name="category_id" required>
+                <option value="">-- 카테고리 선택 --</option>
                 <c:forEach var="category" items="${categoryList}">
                     <option value="${category.categoryId}">${category.categoryName}</option>
                 </c:forEach>
             </select>
+
+            <select class="form-select mb-2" id="category_id_2" name="category_id">
+                <option value="">-- 선택 안함 --</option>
+                <c:forEach var="category" items="${categoryList}">
+                    <option value="${category.categoryId}">${category.categoryName}</option>
+                </c:forEach>
+            </select>
+
+            <select class="form-select" id="category_id_3" name="category_id">
+                <option value="">-- 선택 안함 --</option>
+                <c:forEach var="category" items="${categoryList}">
+                    <option value="${category.categoryId}">${category.categoryName}</option>
+                </c:forEach>
+            </select>
+
         </div>
 
         <div class="mb-3">
             <label for="product_image" class="form-label">상품 이미지</label>
-            <input type="file" class="form-control" id="product_image" name="product_image" accept="image/*" required>
+            <input type="file" class="form-control" id="product_image" name="product_image" accept="image/*">
         </div>
 
         <button type="submit" class="btn btn-primary">상품 저장</button>

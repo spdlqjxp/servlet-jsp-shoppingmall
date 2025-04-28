@@ -12,7 +12,7 @@
 <div class="container py-5">
     <h2>🛠️ 상품 수정</h2>
 
-    <form action="/admin/product/update.do" method="post" enctype="multipart/form-data">
+    <form action="/admin/product/edit.do" method="post">
         <input type="hidden" name="product_id" value="${product.productId}">
 
         <div class="mb-3">
@@ -36,16 +36,41 @@
         </div>
 
         <div class="mb-3">
-            <label for="category_id" class="form-label">카테고리 선택</label>
-            <select class="form-select" id="category_id" name="category_id" required>
+            <label class="form-label">카테고리 선택 (최소 1개 이상 선택)</label>
+
+            <select class="form-select mb-2" id="category_id_1" name="category_id" required>
+                <option value="">카테고리 선택</option>
                 <c:forEach var="category" items="${categoryList}">
                     <option value="${category.categoryId}"
-                            <c:if test="${category.categoryId eq selectedCategoryId}">selected</c:if>
+                            <c:if test="${category.categoryId eq category_id_1}">selected</c:if>
                     >
                             ${category.categoryName}
                     </option>
                 </c:forEach>
             </select>
+
+            <select class="form-select mb-2" id="category_id_2" name="category_id">
+                <option value="">-- 선택 안함 --</option>
+                <c:forEach var="category" items="${categoryList}">
+                    <option value="${category.categoryId}"
+                            <c:if test="${category.categoryId eq category_id_2}">selected</c:if>
+                    >
+                            ${category.categoryName}
+                    </option>
+                </c:forEach>
+            </select>
+
+            <select class="form-select" id="category_id_3" name="category_id">
+                <option value="">-- 선택 안함 --</option>
+                <c:forEach var="category" items="${categoryList}">
+                    <option value="${category.categoryId}"
+                            <c:if test="${category.categoryId eq category_id_3}">selected</c:if>
+                    >
+                            ${category.categoryName}
+                    </option>
+                </c:forEach>
+            </select>
+
         </div>
 
         <div class="mb-3">
@@ -59,7 +84,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">수정 완료</button>
-        <a href="/admin/product/list.do" class="btn btn-secondary">취소</a>
+        <a href="/admin/product.do" class="btn btn-secondary">취소</a>
     </form>
 </div>
 </body>

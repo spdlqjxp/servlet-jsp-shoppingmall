@@ -8,8 +8,8 @@ import java.util.Optional;
 public interface ProductService {
     Product getProduct(String productId);
     List<Product> getAllProducts();
-    void saveProduct(Product product, String categoryId);
-    void updateProduct(Product product);
+    void saveProduct(Product product, List<String> categoryIds);
+    void updateProduct(Product product, List<String> categoryIds);
     void deleteProduct(String productId);
     void updateProductQuantity(String productId, int quantity);
     void pickProduct(String productId, int quantity);

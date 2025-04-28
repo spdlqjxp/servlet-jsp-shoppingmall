@@ -7,4 +7,5 @@ import java.util.List;
 public interface ProductCategoryRepository {
     int save(String productId, String categoryId);
     List<Product> findAllIncludeCategory();
+    int delete(String productId);
 }

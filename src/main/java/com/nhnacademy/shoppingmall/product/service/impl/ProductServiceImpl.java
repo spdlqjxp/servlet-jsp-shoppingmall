@@ -1,6 +1,7 @@
 package com.nhnacademy.shoppingmall.product.service.impl;
 
 import com.nhnacademy.shoppingmall.product.domain.Product;
+import com.nhnacademy.shoppingmall.product.exception.CategoryNotFoundException;
 import com.nhnacademy.shoppingmall.product.exception.ProductAlreadyExistsException;
 import com.nhnacademy.shoppingmall.product.exception.ProductNotFoundException;
 import com.nhnacademy.shoppingmall.product.exception.ProductQuantityNotEnoughException;
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
             int result2 = productCategoryRepository.save(product.getProductId(), categoryId.trim());
             if (result2 < 1) {
                 log.debug("category save failed");
-                throw new ProductAlreadyExistsException(product.getProductId());
+                throw new CategoryNotFoundException(categoryId);
             }
         }
         log.debug("category save : {}", categoryIds);
@@ -65,14 +66,14 @@ public class ProductServiceImpl implements ProductService {
         int result2 = productCategoryRepository.delete(product.getProductId());
         if (result2 < 1) {
             log.debug("category update failed");
-            throw new ProductNotFoundException(product.getProductId());
+            throw new CategoryNotFoundException(product.getCategories().toString());
         }
 
         for(String categoryId : categoryIds) {
             int result3 = productCategoryRepository.save(product.getProductId(), categoryId.trim());
             if (result3 < 1) {
                 log.debug("category update failed");
-                throw new ProductNotFoundException(product.getProductId());
+                throw new CategoryNotFoundException(categoryId);
             }
         }
         log.debug("category update : {}", categoryIds);
@@ -144,5 +145,18 @@ public class ProductServiceImpl implements ProductService {
     public boolean isProductExist(String productId) {
         int count = productRepository.countByProductId(productId);
         return count > 0;
+    }
+
+    @Override
+    public void updateProductImage(String productId, String imagePath) {
+        if (!isProductExist(productId)) {
+            log.debug("image update failed");
+            throw new ProductNotFoundException(productId);
+        }
+        int result = productRepository.updateProductImage(productId, imagePath);
+        if (result < 1) {
+            log.debug("image update failed");
+            throw new ProductNotFoundException(productId);
+        }
     }
 }

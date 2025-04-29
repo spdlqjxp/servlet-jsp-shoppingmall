@@ -15,4 +15,5 @@ public interface ProductService {
     void pickProduct(String productId, int quantity);
     void addProduct(String productId, int quantity);
     boolean isProductExist(String productId);
+    void updateProductImage(String productId, String imagePath);
 }

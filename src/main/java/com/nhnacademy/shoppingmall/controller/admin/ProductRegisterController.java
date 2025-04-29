@@ -5,6 +5,7 @@ import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
 import com.nhnacademy.shoppingmall.product.repository.impl.CategoryRepositoryImpl;
 import com.nhnacademy.shoppingmall.product.service.CategoryService;
 import com.nhnacademy.shoppingmall.product.service.impl.CategoryServiceImpl;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

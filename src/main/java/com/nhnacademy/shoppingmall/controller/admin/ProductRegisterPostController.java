@@ -8,6 +8,7 @@ import com.nhnacademy.shoppingmall.product.repository.impl.ProductRepositoryImpl
 import com.nhnacademy.shoppingmall.product.service.ProductService;
 import com.nhnacademy.shoppingmall.product.service.impl.ProductServiceImpl;
 import com.nhnacademy.shoppingmall.product.utils.ProductIdAutoIncreasement;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

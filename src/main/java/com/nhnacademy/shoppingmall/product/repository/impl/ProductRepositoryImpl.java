@@ -147,6 +147,21 @@ public class ProductRepositoryImpl implements ProductRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int updateProductImage(String productId, String imagePath) {
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        String sql = """
+                update product set product_image=? where product_id=?
+                """;
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, imagePath);
+            statement.setString(2, productId);
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 
 

@@ -59,11 +59,6 @@
 
         </div>
 
-        <div class="mb-3">
-            <label for="product_image" class="form-label">상품 이미지</label>
-            <input type="file" class="form-control" id="product_image" name="product_image" accept="image/*">
-        </div>
-
         <button type="submit" class="btn btn-primary">상품 저장</button>
         <a href="/admin.do" class="btn btn-secondary">취소</a>
     </form>

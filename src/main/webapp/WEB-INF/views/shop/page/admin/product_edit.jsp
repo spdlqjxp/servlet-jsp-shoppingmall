@@ -72,19 +72,24 @@
             </select>
 
         </div>
-
-        <div class="mb-3">
-            <label class="form-label">현재 이미지</label><br/>
-            <img src="${product.productImage}" alt="현재 이미지" style="max-width: 200px; height: auto;">
-        </div>
-
-        <div class="mb-3">
-            <label for="product_image" class="form-label">새 이미지 업로드 (선택)</label>
-            <input type="file" class="form-control" id="product_image" name="product_image" accept="image/*">
-        </div>
-
         <button type="submit" class="btn btn-primary">수정 완료</button>
         <a href="/admin/product.do" class="btn btn-secondary">취소</a>
+    </form>
+    <form action="/admin/product/image-upload.do" method="post"
+          enctype="multipart/form-data">
+        <input type="hidden" name="product_id" value="${product.productId}"/>
+        <div class="mb-3">
+            <label class="form-label">현재 이미지</label><br>
+            <img src="${pageContext.request.contextPath}${product.productImage}"
+                 alt="${product.productName}"
+                 style="max-width:200px; height:auto;" alt="현재 이미지">
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="product_image">새 이미지 업로드</label>
+            <input type="file" id="product_image" name="product_image"
+                   class="form-control" accept="image/*">
+        </div>
+        <button type="submit" class="btn btn-secondary">이미지 저장</button>
     </form>
 </div>
 </body>

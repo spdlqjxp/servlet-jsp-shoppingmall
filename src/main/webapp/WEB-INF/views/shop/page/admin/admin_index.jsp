@@ -11,7 +11,8 @@
 <body>
 <div class="container py-5">
     <h2>📦 상품 관리</h2>
-
+<%--    total product count--%>
+    <h3>total product : ${productPage.totalCount}</h3>
     <div class="d-flex justify-content-end mb-3">
         <a href="/admin/product/register.do" class="btn btn-success">+ 새 상품 등록</a>
     </div>
@@ -46,19 +47,19 @@
                 </td>
             </tr>
         </c:forEach>
-        <c:set var="total" value="${productPage.totalCount}" />
-        <c:set var="pages" value="${(total + size - 1) / size}" />
-        <nav class="pagination fixed-bottom justify-content-center">
-            <ul class="pagination mb-0">
-                <c:forEach begin="1" end="${pages}" var="i">
-                    <li class="page-item ${i == page ? 'active' : ''}">
-                        <a class="page-link" href="?page=${i}&size=${size}">${i}</a>
-                    </li>
-                </c:forEach>
-            </ul>
-        </nav>
         </tbody>
     </table>
+    <c:set var="total" value="${productPage.totalCount}" />
+    <c:set var="pages" value="${(total + size - 1) / size}" />
+    <nav class="pagination justify-content-center">
+        <ul class="pagination mb-0">
+            <c:forEach begin="1" end="${pages}" var="i">
+                <li class="page-item ${i == page ? 'active' : ''}">
+                    <a class="page-link" href="?page=${i}&size=${size}">${i}</a>
+                </li>
+            </c:forEach>
+        </ul>
+    </nav>
 
 </div>
 </body>

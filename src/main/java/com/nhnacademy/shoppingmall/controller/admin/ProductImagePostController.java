@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 @Slf4j
 @RequestMapping(method = RequestMapping.Method.POST, value = "/admin/product/image-upload.do")
@@ -29,11 +30,11 @@ public class ProductImagePostController implements BaseController {
                 dir.mkdirs();
             }
             Part part = req.getPart("product_image");
-            String fileName = part.getSubmittedFileName();
+            String productId = req.getParameter("product_id");
+            String fileName = UUID.randomUUID().toString() + "_" + productId + ".jpg";
             String filePath = uploadPath + File.separator + fileName;
             part.write(filePath);
 
-            String productId = req.getParameter("product_id");
             Product product = productService.getProduct(productId);
             String webPath = "/upload/" + fileName;
             product.setProductImage(webPath);

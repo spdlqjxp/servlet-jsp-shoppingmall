@@ -24,7 +24,7 @@
         </div>
     </c:forEach>
 </div>
-<nav class="pagination fixed-bottom justify-content-center py-3">
+<nav class="pagination justify-content-center py-3">
     <c:set var="total" value="${productPage.totalCount}" />
     <c:set var="pages" value="${(total + size - 1) / size}" />
     <ul class="pagination justify-content-center mb-0">

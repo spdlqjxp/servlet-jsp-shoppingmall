@@ -37,6 +37,8 @@
                             </c:when>
                             <c:otherwise>
                                 <li><a href="/mypage.do" class="nav-link px-2 text-white">마이페이지</a></li>
+                                <li><a href="/mypage/cart.do" class="nav-link px-2 text-white">장바구니</a></li>
+
                             </c:otherwise>
                         </c:choose>
                     </ul>
@@ -48,7 +50,7 @@
                     <div class="text-end">
                         <c:choose>
                             <c:when test="${not empty sessionScope.user}">
-                                <span class="me-3">안녕하세요, <strong>${sessionScope.user.userId}</strong>님</span>
+                                <span class="me-3">안녕하세요, <strong>${sessionScope.user.userId}</strong>집사님</span>
                                 <form method="GET" action="/logout.do" style="display:inline;">
                                     <button type="submit" class="btn btn-outline-light btn-sm">로그아웃</button>
                                 </form>

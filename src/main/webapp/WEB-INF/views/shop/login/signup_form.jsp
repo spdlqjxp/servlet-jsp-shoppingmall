@@ -2,7 +2,7 @@
 
 <div style="margin: auto; width: 400px;">
     <div class="p-2">
-        <form method="post" action="/signupAction.do">
+        <form id="signupForm" method="post" action="/signupAction.do">
 
             <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
 
@@ -22,6 +22,11 @@
             </div>
 
             <div class="form-floating mb-2">
+                <input type="password" name="user_password_confirm" class="form-control" id="user_password_confirm" placeholder="비밀번호 확인" required>
+                <label for="user_password_confirm">비밀번호 확인</label>
+            </div>
+
+            <div class="form-floating mb-2">
                 <input type="text" name="user_birth" class="form-control" id="user_birth" placeholder="생년월일 (YYYYMMDD)" required>
                 <label for="user_birth">생년월일 (예: 19900101)</label>
             </div>
@@ -33,3 +38,15 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+        const pw = document.getElementById('user_password').value;
+        const pwConfirm = document.getElementById('user_password_confirm').value;
+        if (pw !== pwConfirm) {
+            e.preventDefault();
+            alert('비밀번호와 비밀번호 확인이 일치하지 않습니다. 다시 입력해주세요.');
+            document.getElementById('user_password').focus();
+        }
+    });
+</script>

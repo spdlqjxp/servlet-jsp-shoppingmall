@@ -5,6 +5,7 @@ import com.nhnacademy.shoppingmall.common.mvc.view.ViewResolver;
 import com.nhnacademy.shoppingmall.common.mvc.controller.BaseController;
 import com.nhnacademy.shoppingmall.common.mvc.controller.ControllerFactory;
 
+import jakarta.servlet.annotation.MultipartConfig;
 import lombok.extern.slf4j.Slf4j;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -22,6 +23,7 @@ import static jakarta.servlet.RequestDispatcher.*;
 
 @Slf4j
 @WebServlet(name = "frontServlet",urlPatterns = {"*.do"})
+@MultipartConfig
 public class FrontServlet extends HttpServlet {
     private ControllerFactory controllerFactory;
     private ViewResolver viewResolver;

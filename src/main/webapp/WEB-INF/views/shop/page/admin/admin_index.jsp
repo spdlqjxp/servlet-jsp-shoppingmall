@@ -27,7 +27,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="product" items="${productList}">
+        <c:forEach var="product" items="${productPage.content}">
             <tr>
                 <td>${product.productName}</td>
                 <td>${product.price}</td>
@@ -46,6 +46,17 @@
                 </td>
             </tr>
         </c:forEach>
+        <c:set var="total" value="${productPage.totalCount}" />
+        <c:set var="pages" value="${(total + size - 1) / size}" />
+        <nav class="pagination fixed-bottom justify-content-center">
+            <ul class="pagination mb-0">
+                <c:forEach begin="1" end="${pages}" var="i">
+                    <li class="page-item ${i == page ? 'active' : ''}">
+                        <a class="page-link" href="?page=${i}&size=${size}">${i}</a>
+                    </li>
+                </c:forEach>
+            </ul>
+        </nav>
         </tbody>
     </table>
 

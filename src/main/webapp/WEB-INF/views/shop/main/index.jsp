@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-    <c:forEach var="product" items="${productList}">
+    <c:forEach var="product" items="${productPage.content}">
         <div class="col">
             <div class="card shadow-sm">
                 <img src="${product.productImage}" class="card-img-top" style="width:100%; height:225px; object-fit:cover;" alt="상품 이미지">
@@ -24,6 +24,17 @@
         </div>
     </c:forEach>
 </div>
+<nav class="pagination fixed-bottom justify-content-center py-3">
+    <c:set var="total" value="${productPage.totalCount}" />
+    <c:set var="pages" value="${(total + size - 1) / size}" />
+    <ul class="pagination justify-content-center mb-0">
+        <c:forEach begin="1" end="${pages}" var="i">
+            <li class="page-item ${i == page ? 'active' : ''}">
+                <a class="page-link" href="?page=${i}&size=${size}">${i}</a>
+            </li>
+        </c:forEach>
+    </ul>
+</nav>
 
 
 <%--&lt;%&ndash;--%>

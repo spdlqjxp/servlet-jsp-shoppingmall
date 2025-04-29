@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.product.service;
 
+import com.nhnacademy.shoppingmall.common.page.Page;
 import com.nhnacademy.shoppingmall.product.domain.Product;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Optional;
 
 public interface ProductService {
     Product getProduct(String productId);
-    List<Product> getAllProducts();
+    Page<Product> getAllProducts(int page, int pageSize);
     void saveProduct(Product product, List<String> categoryIds);
     void updateProduct(Product product, List<String> categoryIds);
     void deleteProduct(String productId);

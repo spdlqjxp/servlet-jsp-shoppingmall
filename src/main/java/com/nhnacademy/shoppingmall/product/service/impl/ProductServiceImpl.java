@@ -1,5 +1,6 @@
 package com.nhnacademy.shoppingmall.product.service.impl;
 
+import com.nhnacademy.shoppingmall.common.page.Page;
 import com.nhnacademy.shoppingmall.product.domain.Product;
 import com.nhnacademy.shoppingmall.product.exception.CategoryNotFoundException;
 import com.nhnacademy.shoppingmall.product.exception.ProductAlreadyExistsException;
@@ -30,8 +31,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
-        return productCategoryRepository.findAllIncludeCategory();
+    public Page<Product> getAllProducts(int page, int pageSize) {
+        return productCategoryRepository.findAllIncludeCategory(page, pageSize);
     }
 
     @Override

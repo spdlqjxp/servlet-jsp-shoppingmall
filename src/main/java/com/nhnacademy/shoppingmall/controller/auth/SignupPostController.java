@@ -20,8 +20,12 @@ public class SignupPostController implements BaseController {
         String userId = req.getParameter("user_id");
         String name = req.getParameter("user_name");
         String password = req.getParameter("user_password");
+        String passwordConfirm = req.getParameter("user_password_confirm");
         String birth = req.getParameter("user_birth");
 
+        if (!password.equals(passwordConfirm)) {
+            return "redirect:/signup.do";
+        }
         User user = new User(userId, name, password, birth, User.Auth.ROLE_USER, 1_000_000, LocalDateTime.now(), LocalDateTime.now());
         try {
             userService.saveUser(user);

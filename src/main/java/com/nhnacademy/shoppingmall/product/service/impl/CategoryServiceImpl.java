@@ -1,6 +1,8 @@
 package com.nhnacademy.shoppingmall.product.service.impl;
 
+import com.nhnacademy.shoppingmall.common.page.Page;
 import com.nhnacademy.shoppingmall.product.domain.Category;
+import com.nhnacademy.shoppingmall.product.domain.Product;
 import com.nhnacademy.shoppingmall.product.repository.CategoryRepository;
 import com.nhnacademy.shoppingmall.product.service.CategoryService;
 
@@ -19,5 +21,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getCategoriesByProductId(String productId) {
         return categoryRepository.findCategoriesByProductId(productId);
+    }
+
+    @Override
+    public Page<Product> getAllProductsByCategoryId(String categoryId, int page, int size) {
+        return categoryRepository.findAllByCategoryId(categoryId, page, size);
     }
 }

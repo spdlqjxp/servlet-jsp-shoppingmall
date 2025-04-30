@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" trimDirectiveWhitespaces="true" session="false" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <div style="margin: auto; width: 400px;">
     <div class="p-2">
@@ -23,3 +24,8 @@
         </form>
     </div>
 </div>
+<c:if test="${not empty param.error and param.error eq '1'}">
+    <script>
+        alert('로그인에 실패했습니다. 아이디와 비밀번호를 확인해주세요.');
+    </script>
+</c:if>

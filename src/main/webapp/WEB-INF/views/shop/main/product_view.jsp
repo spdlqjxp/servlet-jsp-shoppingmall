@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,7 +22,9 @@
         <div class="col-md-6">
             <div class="border rounded p-4 shadow-sm">
                 <h2 class="mb-3">${product.productName}</h2>
-                <h4 class="text-danger mb-3">${product.price}원</h4>
+                <h4 class="text-danger mb-3">
+                    <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0"/>원
+                </h4>
                 <p class="mb-4">${product.productDescription}</p>
 
                 <div class="mb-4">

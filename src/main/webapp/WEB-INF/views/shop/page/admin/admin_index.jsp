@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -31,7 +32,7 @@
         <c:forEach var="product" items="${productPage.content}">
             <tr>
                 <td>${product.productName}</td>
-                <td>${product.price}</td>
+                <td><fmt:formatNumber value="${product.price}" type="number"/>원</td>
                 <td>${product.productQuantity}</td>
                 <td>
                 <c:forEach var="category" items="${product.categories}">

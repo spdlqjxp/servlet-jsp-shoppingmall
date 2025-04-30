@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -40,7 +41,7 @@
                         <tr>
                             <td>${prod.productName}</td>
                             <td>${cart.quantity}</td>
-                            <td>${prod.price}원</td>
+                            <td><fmt:formatNumber value="${prod.price}" type="number"/>원</td>
                             <td>${lineTotal}원</td>
                             <td>
                                 <form method="post"

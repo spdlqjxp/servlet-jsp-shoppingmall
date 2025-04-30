@@ -16,13 +16,13 @@ public class LoginCheckFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         //todo#10 /mypage/ 하위경로의 접근은 로그인한 사용자만 접근할 수 있습니다.
-        User user = (User) req.getSession().getAttribute("user");
-        String userId = user.getUserId();
-        if (userId == null) {
-            log.debug("로그인 하지 않은 사용자입니다.");
+        try {
+            User user = (User) req.getSession().getAttribute("user");
+        } catch (NullPointerException e) {
+            log.debug("세션이 존재하지 않습니다.");
             res.sendRedirect("/login.do");
-        } else {
-            chain.doFilter(req, res);
+            return;
         }
+        chain.doFilter(req, res);
     }
 }

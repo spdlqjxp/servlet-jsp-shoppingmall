@@ -78,7 +78,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public int update(Product product) {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = """
-                update product set product_name=?, product_price=?, product_quantity=?, product_description=?, product_image=?
+                update product set product_name=?, product_price=?, product_quantity=?, product_description=?
                 where product_id=?
                 """;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -86,8 +86,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             statement.setInt(2, product.getPrice());
             statement.setInt(3, product.getProductQuantity());
             statement.setString(4, product.getProductDescription());
-            statement.setString(5, product.getProductImage());
-            statement.setString(6, product.getProductId());
+            statement.setString(5, product.getProductId());
 
             return statement.executeUpdate();
         } catch (SQLException e) {

@@ -1,23 +1,66 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%--최근 본 상품--%>
+<c:if test="${not empty sessionScope.recentProducts}">
+    <div class="container mt-5">
+        <h4>최근 본 상품</h4>
+        <div class="row row-cols-2 row-cols-md-5 g-2">
+            <c:forEach var="rp" items="${sessionScope.recentProducts}">
+                <div class="col">
+                    <a href="${pageContext.request.contextPath}/product/view.do?product_id=${rp.productId}">
+                        <div class="card">
+                            <img src="${rp.productImage}"
+                                 class="card-img-top"
+                                 style="height:100px; object-fit:cover;"
+                                 alt="${rp.productName}">
+                            <div class="card-body p-2">
+                                <p class="card-text small text-truncate mb-1">
+                                        ${rp.productName}
+                                </p>
+                                <p class="card-text small text-muted">
+                                    <fmt:formatNumber value="${rp.price}" groupingUsed="true"/>원
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
+        </div>
+    </div>
+</c:if>
 
+
+
+<div class="container mt-5">
+    <h1>메인 상품</h1>
+</div>
+
+<%--메인 상품--%>
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
     <c:forEach var="product" items="${productPage.content}">
         <div class="col">
             <div class="card shadow-sm">
+                <a href="/product/view.do?product_id=${product.productId}">
                 <img src="${product.productImage}" class="card-img-top" style="width:100%; height:225px; object-fit:cover;" alt="상품 이미지">
-
+                </a>
                 <div class="card-body">
-                    <h5 class="card-title">${product.productName}</h5>
+                    <h5 class="card-title">
+                            ${product.productName}
+                    </h5>
                     <p class="card-text">
                             ${product.productDescription}
+                    </p>
+                    <p class="card-text">
+                            ${product.productQuantity}마리 남음
                     </p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a href="/product/view.do?product_id=${product.productId}" class="btn btn-sm btn-outline-secondary">View</a>
-                            <a href="/cart/add.do?product_id=${product.productId}" class="btn btn-sm btn-outline-secondary">Add to Cart</a>
                         </div>
-                        <small class="text-muted">${product.price}원</small>
+                        <small class="text-muted">
+                            <fmt:formatNumber value="${product.price}" type="number" />원
+                        </small>
                     </div>
                 </div>
             </div>

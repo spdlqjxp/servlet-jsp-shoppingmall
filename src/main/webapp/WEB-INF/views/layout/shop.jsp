@@ -25,6 +25,7 @@
             <div class="container">
                 <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
+
                     <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
                         <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
                     </a>
@@ -42,6 +43,14 @@
                             </c:otherwise>
                         </c:choose>
                     </ul>
+                    <!-- 1) 카테고리 토글 버튼 -->
+                    <button class="btn btn-outline-light me-3" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#categoryCollapse"
+                            aria-expanded="false"
+                            aria-controls="categoryCollapse">
+                        카테고리
+                    </button>
 
                     <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                         <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
@@ -60,6 +69,19 @@
                                 <a class="btn btn-warning" href="/signup.do">회원가입</a>
                             </c:otherwise>
                         </c:choose>
+                    </div>
+                </div>
+            </div>
+            <div class="collapse border-top" id="categoryCollapse" style="background-color: #000;">
+                <div class="container py-2">
+                    <div class="d-flex flex-wrap">
+                        <c:forEach var="cat" items="${requestScope.categoryList}">
+                            <a href="index.do?category_id=${cat.categoryId}"
+                               class="me-3 mb-2 text-decoration-none
+               ${cat.categoryId == selectedCategoryId ? 'fw-bold text-primary' : 'text-white'}">
+                                <strong>${cat.categoryName}</strong>
+                            </a>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -84,6 +106,7 @@
         </footer>
 
     </div>
+
 
 </body>
 </html>

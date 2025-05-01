@@ -1,9 +1,12 @@
 package com.nhnacademy.shoppingmall.order.service.Impl;
 
+import com.nhnacademy.shoppingmall.common.page.Page;
 import com.nhnacademy.shoppingmall.order.exception.PointNotEnoughException;
 import com.nhnacademy.shoppingmall.order.repository.OrderRepository;
 import com.nhnacademy.shoppingmall.order.service.OrderService;
 import com.nhnacademy.shoppingmall.order.utils.OrderIdAutoIncreasement;
+import com.nhnacademy.shoppingmall.product.domain.Product;
+import com.nhnacademy.shoppingmall.product.exception.ProductNotFoundException;
 import com.nhnacademy.shoppingmall.product.repository.ProductRepository;
 import com.nhnacademy.shoppingmall.thread.channel.RequestChannel;
 import com.nhnacademy.shoppingmall.user.domain.User;
@@ -45,5 +48,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void cancelOrder(String orderId) {
 
+    }
+
+    @Override
+    public Page<Product> getOrderHistory(String userId, int page, int size) {
+        Page<Product> orderHistory = orderRepository.findOrderProductsByUserId(userId, page, size);
+        if (orderHistory.getContent().isEmpty()) {
+            throw new ProductNotFoundException("주문 내역이 없습니다.");
+        }
+        return orderHistory;
     }
 }

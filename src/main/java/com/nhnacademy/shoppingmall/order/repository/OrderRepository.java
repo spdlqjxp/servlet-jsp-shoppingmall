@@ -7,5 +7,5 @@ public interface OrderRepository {
     int saveOrder(String orderId, String userId);
     int saveOrderProducts(String orderId, String productId, int quantity);
 
-    Page<Product> findOrderProductsByUserId(String userId);
+    Page<Product> findOrderProductsByUserId(String userId, int page, int size);
 }

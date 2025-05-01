@@ -50,7 +50,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public Page<Product> findOrderProductsByUserId(String userId) {
+    public Page<Product> findOrderProductsByUserId(String userId, int page, int size) {
         Connection connection = DbConnectionThreadLocal.getConnection();
         String sql = """
                 select p.product_id, p.product_name, p.product_price, oi.order_quantity
@@ -58,12 +58,18 @@ public class OrderRepositoryImpl implements OrderRepository {
                  inner join nhn_academy_16.order o on oi.order_id = o.order_id
                  inner join product p on oi.product_id = p.product_id
                  where o.user_id = ?
-                 order by o.order_created_at desc;
+                 order by o.order_created_at desc
+                 limit ?, ?;
                  """;
+        int offset = (page - 1) * size;
+        int limit = size;
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, userId);
+            statement.setInt(2, offset);
+            statement.setInt(3, limit);
             ResultSet rs = statement.executeQuery();
             List<Product> products = new ArrayList<>();
+
             while (rs.next()) {
                 Product product = new Product(
                         rs.getString("product_id"),

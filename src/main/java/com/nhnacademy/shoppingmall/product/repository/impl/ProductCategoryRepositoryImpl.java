@@ -112,4 +112,74 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
         }
         return 0;
     }
+
+    @Override
+    public Page<Product> findByKeyword(String keyword, int page, int pageSize) {
+        String sql = """
+                select * from product p
+                inner join category_product cp on p.product_id = cp.product_id
+                inner join category c on cp.category_id = c.category_id
+                where p.product_name like ? or c.category_name like ?
+                order by cast(substring(p.product_id, 2) as unsigned) desc
+                limit ?, ?;
+                """;
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        int offset = (page - 1) * pageSize;
+        int limit = pageSize;
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, "%" + keyword + "%");
+            statement.setString(2, "%" + keyword + "%");
+            statement.setInt(3, offset);
+            statement.setInt(4, limit);
+            ResultSet rs = statement.executeQuery();
+            Map<String, Product> productMap = new LinkedHashMap<>();
+            while (rs.next()) {
+                String id = rs.getString("product_id");
+                Product product = productMap.get(id);
+                if (Objects.isNull(product)) {
+                    product = new Product(
+                            rs.getString("product_id"),
+                            rs.getString("product_name"),
+                            rs.getInt("product_price"),
+                            rs.getInt("product_quantity"),
+                            rs.getString("product_description"),
+                            rs.getString("product_image")
+                    );
+                    productMap.put(id, product);
+                }
+                List<Category> categories = product.getCategories();
+                categories.add(new Category(
+                        rs.getString("category_id"),
+                        rs.getString("category_name")
+                ));
+            }
+            long totalCount = 0;
+            if (!productMap.isEmpty()) {
+                totalCount = totalCountWithKeyword(keyword);
+            }
+            return new Page<>(new ArrayList<>(productMap.values()), totalCount);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public long totalCountWithKeyword(String keyword) {
+        String sql = """
+                select count(*) from product p
+                inner join category_product cp on p.product_id = cp.product_id
+                inner join category c on cp.category_id = c.category_id
+                where p.product_name like ? or c.category_name like ?
+                """;
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, "%" + keyword + "%");
+            statement.setString(2, "%" + keyword + "%");
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
+    }
 }

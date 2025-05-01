@@ -10,4 +10,5 @@ public interface ProductCategoryRepository {
     Page<Product> findAllIncludeCategory(int page, int pageSize);
     int delete(String productId);
     long totalCount();
+    Page<Product> findByKeyword(String keyword, int page, int pageSize);
 }

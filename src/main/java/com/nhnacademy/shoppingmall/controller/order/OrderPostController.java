@@ -13,17 +13,12 @@ import com.nhnacademy.shoppingmall.product.service.ProductService;
 import com.nhnacademy.shoppingmall.product.service.impl.ProductServiceImpl;
 import com.nhnacademy.shoppingmall.thread.channel.RequestChannel;
 import com.nhnacademy.shoppingmall.thread.request.impl.PointChannelRequest;
-import com.nhnacademy.shoppingmall.thread.worker.WorkerThread;
 import com.nhnacademy.shoppingmall.user.domain.User;
 import com.nhnacademy.shoppingmall.user.repository.impl.UserRepositoryImpl;
-import jakarta.servlet.ServletContainerInitializer;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-
-import javax.naming.Context;
 import java.util.List;
 
 @Slf4j
@@ -31,7 +26,6 @@ import java.util.List;
 public class OrderPostController implements BaseController {
     private final OrderService orderService = new OrderServiceImpl(new OrderRepositoryImpl(), new ProductRepositoryImpl(), new UserRepositoryImpl());
     private final ProductService productService = new ProductServiceImpl(new ProductRepositoryImpl(), new ProductCategoryRepositoryImpl());
-
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         HttpSession session = req.getSession();
@@ -57,8 +51,11 @@ public class OrderPostController implements BaseController {
                 throw new RuntimeException(e);
             }
         }
+        user.setUserPoint(user.getUserPoint() - cartList.stream().mapToInt(cart -> productService.getProduct(cart.getProductId()).getPrice() * cart.getQuantity()).sum());
+        session.setAttribute("user", user);
         cartList.clear();
         session.setAttribute("cartList", cartList);
+
 
         return "shop/page/order/order_complete";
     }

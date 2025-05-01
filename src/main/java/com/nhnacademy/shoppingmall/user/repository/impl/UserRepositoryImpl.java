@@ -172,4 +172,18 @@ public class UserRepositoryImpl implements UserRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int updateUserPoint(String userId, int point) {
+        String sql = "update users set user_point=user_point + ? where user_id=?";
+        Connection connection = DbConnectionThreadLocal.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, point);
+            statement.setString(2, userId);
+
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

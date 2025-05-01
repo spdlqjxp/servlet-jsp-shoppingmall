@@ -28,7 +28,7 @@ public class ProductRegisterPostController implements BaseController {
         String productPrice = req.getParameter("product_price");
         String productQuantity = req.getParameter("product_quantity");
         String productDescription = req.getParameter("product_description");
-        String productImage = req.getParameter("productImage");
+        String productImage = "/resources/no-image.png";
 
         Product product = new Product(productId, productName, Integer.parseInt(productPrice), Integer.parseInt(productQuantity), productDescription, productImage);
         List<String> categoryIds = new ArrayList<>();

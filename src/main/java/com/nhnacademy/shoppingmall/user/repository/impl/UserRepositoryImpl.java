@@ -175,7 +175,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public int updateUserPoint(String userId, int point) {
-        String sql = "update users set user_point=user_point + ? where user_id=?";
+        String sql = "update users set user_point= + ? where user_id=?";
         Connection connection = DbConnectionThreadLocal.getConnection();
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, point);

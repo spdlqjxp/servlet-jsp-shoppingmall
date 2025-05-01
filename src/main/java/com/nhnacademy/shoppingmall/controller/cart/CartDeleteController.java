@@ -28,8 +28,11 @@ public class CartDeleteController implements BaseController {
         for (Cart cart : cartList) {
             String productId = cart.getProductId();
             int quantity = cart.getQuantity();
-            productService.addProduct(productId, quantity);
-            cartList.remove(cart);
+            if(productId.equals(req.getParameter("product_id"))) {
+                cartList.remove(cart);
+                productService.addProduct(productId, quantity);
+                break;
+            }
         }
         session.setAttribute("cartList", cartList);
         return "redirect:/mypage/cart.do";

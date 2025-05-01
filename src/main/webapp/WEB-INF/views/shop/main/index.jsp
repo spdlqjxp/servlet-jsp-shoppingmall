@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%--최근 본 상품--%>
 <c:if test="${not empty sessionScope.recentProducts}">
     <div class="container mt-5">
@@ -73,7 +74,31 @@
     <ul class="pagination justify-content-center mb-0">
         <c:forEach begin="1" end="${pages}" var="i">
             <li class="page-item ${i == page ? 'active' : ''}">
-                <a class="page-link" href="?page=${i}&size=${size}">${i}</a>
+                <c:choose>
+                    <c:when test="${not empty param.keyword}">
+                        <c:url var="pageUrl" value="${pageContext.request.contextPath}/product/search.do">
+                            <c:param name="keyword" value="${fn:escapeXml(param.keyword)}" />
+                            <c:param name="page"    value="${i}" />
+                            <c:param name="size"    value="${size}" />
+                        </c:url>
+                    </c:when>
+
+                    <c:when test="${not empty param.category_id}">
+                        <c:url var="pageUrl" value="${pageContext.request.contextPath}/index.do">
+                            <c:param name="category_id" value="${param.category_id}" />
+                            <c:param name="page"        value="${i}" />
+                            <c:param name="size"        value="${size}" />
+                        </c:url>
+                    </c:when>
+
+                    <c:otherwise>
+                        <c:url var="pageUrl" value="${pageContext.request.contextPath}/index.do">
+                            <c:param name="page" value="${i}" />
+                            <c:param name="size" value="${size}" />
+                        </c:url>
+                    </c:otherwise>
+                </c:choose>
+                <a class="page-link" href="${pageUrl}">${i}</a>
             </li>
         </c:forEach>
     </ul>

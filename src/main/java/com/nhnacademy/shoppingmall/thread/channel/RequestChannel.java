@@ -9,7 +9,10 @@ import java.util.Queue;
 public class RequestChannel {
     private final Queue<ChannelRequest> queue;
     private final int queueMaxSize;
-
+    private static final int DEFAULT_QUEUE_MAX_SIZE = 100;
+    public RequestChannel() {
+        this(DEFAULT_QUEUE_MAX_SIZE);
+    }
     public RequestChannel(int queueMaxSize) {
         this.queueMaxSize = queueMaxSize;
         this.queue = new LinkedList<>();

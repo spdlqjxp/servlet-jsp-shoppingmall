@@ -34,9 +34,18 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
     @Override
     public Page<Product> findAllIncludeCategory(int page, int pageSize) {
         String sql = """
-                select * from product p
+                select distinct p.product_id,
+                                p.product_name,
+                                p.product_price,
+                                p.product_quantity,
+                                p.product_description,
+                                p.product_image,
+                                GROUP_CONCAT(c.category_name) as category_name,
+                                GROUP_CONCAT(c.category_id) as category_id
+                from product p
                 inner join category_product cp on p.product_id = cp.product_id
                 inner join category c on cp.category_id = c.category_id
+                group by p.product_id
                 order by cast(substring(p.product_id, 2) as unsigned) desc
                 limit ?, ?;
              
@@ -65,10 +74,14 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
                     productMap.put(id, product);
                 }
                 List<Category> categories = product.getCategories();
-                categories.add(new Category(
-                        rs.getString("category_id"),
-                        rs.getString("category_name")
-                ));
+                String[] categoryIds = rs.getString("category_id").split(",");
+                String[] categoryNames = rs.getString("category_name").split(",");
+                for (int i = 0; i < categoryIds.length; i++) {
+                    categories.add(new Category(
+                            categoryIds[i],
+                            categoryNames[i]
+                    ));
+                }
             }
             long totalCount = 0;
             if (!productMap.isEmpty()) {
@@ -120,6 +133,7 @@ public class ProductCategoryRepositoryImpl implements ProductCategoryRepository 
                 inner join category_product cp on p.product_id = cp.product_id
                 inner join category c on cp.category_id = c.category_id
                 where p.product_name like ? or c.category_name like ?
+                group by p.product_id
                 order by cast(substring(p.product_id, 2) as unsigned) desc
                 limit ?, ?;
                 """;

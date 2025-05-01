@@ -48,7 +48,7 @@
                                       action="${pageContext.request.contextPath}/mypage/cart/delete.do"
                                       style="display:inline;"
                                       onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                                    <input type="hidden" name="index" value="${st.index}" />
+                                    <input type="hidden" name="product_id" value="${prod.productId}" />
                                     <button type="submit" class="btn btn-link p-0 m-0 align-baseline">
                                         삭제
                                     </button>

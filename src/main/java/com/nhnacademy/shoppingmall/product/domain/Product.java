@@ -9,8 +9,8 @@ public class Product {
     private String productName;
     private int price;
     private int productQuantity;
-    private String productDescription = null;
-    private String productImage = null;
+    private String productDescription = "";
+    private String productImage = "";
     private List<Category> categories = new ArrayList<>();
     public Product(String productId, String productName, int price, int productQuantity, String productDescription, String productImage) {
         this.productId = productId;

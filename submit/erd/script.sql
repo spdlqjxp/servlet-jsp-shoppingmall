@@ -1,5 +1,4 @@
-drop database if exists nhn_academy_16;
-create database nhn_academy_16;
+
 use nhn_academy_16;
 show tables ;
 
@@ -97,12 +96,12 @@ ALTER TABLE `category_product` ADD CONSTRAINT `FK_product_TO_category_product_1`
                           `product_id`
         ) ON DELETE CASCADE;
 
-ALTER TABLE `order` ADD CONSTRAINT `FK_users_TO_order_1` FOREIGN KEY (
+ALTER TABLE `order` ADD CONSTRAINT `FK_users_TO_order_2` FOREIGN KEY (
                                                                       `user_id`
     )
     REFERENCES `users` (
                         `user_id`
-        );
+        ) on DELETE CASCADE;
 
 ALTER TABLE `cart` ADD CONSTRAINT `FK_users_TO_cart_1` FOREIGN KEY (
                                                                     `user_id`
@@ -131,4 +130,5 @@ ALTER TABLE `order_items` ADD CONSTRAINT `FK_product_TO_order_items_1` FOREIGN K
     REFERENCES `product` (
                           `product_id`
         ) ON DELETE CASCADE;
+
 

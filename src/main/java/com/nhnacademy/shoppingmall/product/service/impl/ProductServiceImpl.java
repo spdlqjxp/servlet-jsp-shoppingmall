@@ -160,4 +160,9 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductNotFoundException(productId);
         }
     }
+
+    @Override
+    public Page<Product> getProductsByKeyword(String keyword, int page, int pageSize) {
+        return productCategoryRepository.findByKeyword(keyword, page, pageSize);
+    }
 }

@@ -17,4 +17,6 @@ public interface ProductService {
     void addProduct(String productId, int quantity);
     boolean isProductExist(String productId);
     void updateProductImage(String productId, String imagePath);
+
+    Page<Product> getProductsByKeyword(String keyword, int page, int pageSize);
 }

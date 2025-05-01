@@ -85,8 +85,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userPoint == user.userPoint &&
-                Objects.equals(userId, user.userId) &&
+        return Objects.equals(userId, user.userId) &&
                 Objects.equals(userName, user.userName) &&
                 Objects.equals(userPassword, user.userPassword) &&
                 Objects.equals(userBirth, user.userBirth) &&

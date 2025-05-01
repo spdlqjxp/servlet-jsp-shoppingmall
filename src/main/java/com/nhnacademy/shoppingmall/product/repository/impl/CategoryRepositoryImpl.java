@@ -82,7 +82,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             }
             long totalCount = 0;
         if(!productMap.isEmpty()) {
-            totalCount = totalCount();
+            totalCount = totalCount(categoryId);
         }
             return new Page<>(new ArrayList<>(productMap.values()), totalCount);
         } catch (SQLException e) {
@@ -91,12 +91,16 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public long totalCount() {
+    public long totalCount(String categoryId) {
         String sql = """
-                SELECT COUNT(*) FROM product;
+                select distinct count(*) from product p
+                inner join category_product cp on p.product_id=cp.product_id
+                inner join category c on cp.category_id = c.category_id
+                where cp.category_id = ?
                 """;
         Connection connection = DbConnectionThreadLocal.getConnection();
-        try(PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, categoryId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 return rs.getLong(1);

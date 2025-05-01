@@ -13,6 +13,6 @@ public interface CategoryRepository {
 
     Page<Product> findAllByCategoryId(String categoryId, int page, int size);
 
-    long totalCount();
+    long totalCount(String productId);
 
 }

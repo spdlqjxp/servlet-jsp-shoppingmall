@@ -6,6 +6,8 @@ import com.nhnacademy.shoppingmall.order.service.OrderService;
 import com.nhnacademy.shoppingmall.order.utils.OrderIdAutoIncreasement;
 import com.nhnacademy.shoppingmall.product.repository.ProductRepository;
 import com.nhnacademy.shoppingmall.thread.channel.RequestChannel;
+import com.nhnacademy.shoppingmall.user.domain.User;
+import com.nhnacademy.shoppingmall.user.exception.UserNotFoundException;
 import com.nhnacademy.shoppingmall.user.repository.UserRepository;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletContextEvent;
@@ -27,8 +29,13 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.saveOrder(orderId, userId);
         orderRepository.saveOrderProducts(orderId, productId, quantity);
 //        주문 -> 포인트 차감
-        price = -price;
-        int result = userRepository.updateUserPoint(userId, price);
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        int userPoint = user.getUserPoint();
+        if (userPoint < price) {
+            throw new PointNotEnoughException("포인트가 부족합니다.");
+        }
+        userPoint = userPoint - price;
+        int result = userRepository.updateUserPoint(userId, userPoint);
         if (result < 1) {
             throw new PointNotEnoughException("포인트가 부족합니다.");
         }

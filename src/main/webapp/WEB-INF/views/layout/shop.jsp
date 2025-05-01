@@ -43,7 +43,6 @@
                             </c:otherwise>
                         </c:choose>
                     </ul>
-                    <!-- 1) 카테고리 토글 버튼 -->
                     <button class="btn btn-outline-light me-3" type="button"
                             data-bs-toggle="collapse"
                             data-bs-target="#categoryCollapse"
@@ -52,8 +51,18 @@
                         카테고리
                     </button>
 
-                    <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                        <input type="search" class="form-control form-control-dark" placeholder="Search..." aria-label="Search">
+                    <form class="d-flex align-items-center mb-3 mb-lg-0" method="get"
+                          action="/product/search.do">
+                        <input type="search"
+                               name="keyword"
+                               class="form-control form-control-dark me-2"
+                               placeholder="Search..."
+                               aria-label="Search"
+                               value="${fn:escapeXml(param.keyword)}" />
+
+                        <button type="submit" class="btn btn-outline-light btn-sm me-2 text-nowrap">
+                            검색
+                        </button>
                     </form>
 
                     <div class="text-end">
@@ -76,7 +85,7 @@
                 <div class="container py-2">
                     <div class="d-flex flex-wrap">
                         <c:forEach var="cat" items="${requestScope.categoryList}">
-                            <a href="index.do?category_id=${cat.categoryId}"
+                            <a href="/index.do?category_id=${cat.categoryId}"
                                class="me-3 mb-2 text-decoration-none
                ${cat.categoryId == selectedCategoryId ? 'fw-bold text-primary' : 'text-white'}">
                                 <strong>${cat.categoryName}</strong>
@@ -101,7 +110,7 @@
                 <p class="float-end mb-1">
                     <a href="#">Back to top</a>
                 </p>
-                <p class="mb-1">shoppingmall example is © nhnacademy.com</p>
+                <p class="mb-1">shoppingmall by 박진환</p>
             </div>
         </footer>
 

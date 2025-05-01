@@ -22,7 +22,7 @@
             </a>
         </c:when>
         <c:otherwise>
-            <form method="post" action="${pageContext.request.contextPath}/order/createFromCart.do">
+            <div>
                 <table class="table table-bordered">
                     <thead class="table-light">
                     <tr>
@@ -42,7 +42,7 @@
                             <td>${prod.productName}</td>
                             <td>${cart.quantity}</td>
                             <td><fmt:formatNumber value="${prod.price}" type="number"/>원</td>
-                            <td>${lineTotal}원</td>
+                            <td><fmt:formatNumber value="${lineTotal}" type="number"/>원</td>
                             <td>
                                 <form method="post"
                                       action="${pageContext.request.contextPath}/mypage/cart/delete.do"
@@ -61,17 +61,18 @@
                     <tfoot>
                     <tr>
                         <th colspan="3" class="text-end">총 합계</th>
-                        <th colspan="2">${totalPrice}원</th>
+                        <th colspan="2"><fmt:formatNumber value="${totalPrice}" type="number"/>원</th>
                     </tr>
                     </tfoot>
                 </table>
-
+            </div>
+            <form method="post" action="${pageContext.request.contextPath}/mypage/order.do">
                 <div class="d-flex justify-content-between">
                     <a href="${pageContext.request.contextPath}/index.do" class="btn btn-secondary">
                         쇼핑 계속하기
                     </a>
                     <button type="submit" class="btn btn-primary">
-                        선택 상품 구매
+                        상품 구매
                     </button>
                 </div>
             </form>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" session="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <main class="container py-5">
     <c:choose>
@@ -7,7 +8,8 @@
             <h2 class="mb-4">👤 마이페이지</h2>
             <p><strong>아이디:</strong> ${sessionScope.user.userId}</p>
             <p><strong>이름:</strong> ${sessionScope.user.userName}</p>
-            <p><strong>포인트:</strong> ${sessionScope.user.userPoint}</p>
+            <p><strong>포인트:</strong>
+                    <fmt:formatNumber value="${sessionScope.user.userPoint}" type="number"/></p>
             <hr/>
             <ul>
                 <li><a href="/order/history.do">주문 내역</a></li>

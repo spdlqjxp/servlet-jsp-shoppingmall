@@ -43,6 +43,15 @@
                                 <input type="number" id="quantity" name="product_count"
                                        class="form-control" value="1" min="1"
                                        max="${product.productQuantity}" required>
+                                <div class="d-flex gap-2 mb-3 mt-3">
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                        장바구니에 담기
+                                    </button>
+                                    <a href="${pageContext.request.contextPath}/order/create.do?product_id=${product.productId}&quantity=${quantity}"
+                                       class="btn btn-primary">
+                                        바로 구매
+                                    </a>
+                                </div>
                             </c:when>
 
                             <c:otherwise>
@@ -50,15 +59,7 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-outline-secondary">
-                            장바구니에 담기
-                        </button>
-                        <a href="${pageContext.request.contextPath}/order/create.do?product_id=${product.productId}&quantity=${quantity}"
-                           class="btn btn-primary">
-                            바로 구매
-                        </a>
-                    </div>
+
                 </form>
             </div>
         </div>

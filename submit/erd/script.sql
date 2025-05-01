@@ -31,7 +31,8 @@ CREATE TABLE `category_product` (
 
 CREATE TABLE `order` (
                          `order_id`	varchar(50)	NOT NULL	COMMENT '주문Id',
-                         `user_id`	varchar(50)	NOT NULL	COMMENT '아이디'
+                         `user_id`	varchar(50)	NOT NULL	COMMENT '아이디',
+                        'order_created_at' datetime NOT NULL COMMENT '주문일자'
 );
 
 CREATE TABLE `cart` (
@@ -122,12 +123,12 @@ ALTER TABLE `order_items` ADD CONSTRAINT `FK_order_TO_order_items_1` FOREIGN KEY
     )
     REFERENCES `order` (
                         `order_id`
-        );
+        ) ON DELETE CASCADE;
 
 ALTER TABLE `order_items` ADD CONSTRAINT `FK_product_TO_order_items_1` FOREIGN KEY (
                                                                                     `product_id`
     )
     REFERENCES `product` (
                           `product_id`
-        );
+        ) ON DELETE CASCADE;
 

@@ -20,7 +20,7 @@
                         </a>
 
                         <!-- 결제 내역(주문 내역) 조회 -->
-                        <a href="${pageContext.request.contextPath}/mypage/orders.do"
+                        <a href="${pageContext.request.contextPath}/mypage/order/history.do"
                            class="btn btn-outline-secondary">
                             결제 내역 보기
                         </a>
